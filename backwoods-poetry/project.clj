@@ -15,5 +15,6 @@
   :main ^:skip-aot backwoods-research.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}}
+  :ring {:handler backwoods-poetry.core/handler}
   :plugins [[lein-ring "0.12.1"]])
 
