@@ -59,13 +59,13 @@
 
 (defn l2w1 [word-list] (get-word 2 (paired word-list)))
 
-(defn l2w2 [word-list] (get-word 4 (paired word-list)))
+(defn l2w2 [word-list] (get-word 1 (paired word-list)))
 
-(defn l2w3 [word-list] (get-word 1 (paired word-list)))
+(defn l2w3 [word-list] (get-word 4 (paired word-list)))
 
-(defn l3w1 [word-list] (get-word 4 (paired word-list)))
+(defn l3w1 [word-list] (get-word 1 (paired word-list)))
 
-(defn l3w2 [word-list] (get-word 1 (paired word-list)))
+(defn l3w2 [word-list] (get-word 4 (paired word-list)))
 
 (defn first-line [word-list] [(l1w1 word-list) (l1w2 word-list)])
 
