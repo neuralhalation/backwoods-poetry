@@ -28,10 +28,6 @@
   [words]
   (map count (matches words)))
 
-(defn lengths
-  [words]
-  (get-lengths (matches words)))
-
 (defn pair
   [words]
   (zipmap words (get-lengths words)))
