@@ -36,6 +36,14 @@
   [length pairs]
   (filter (comp #{length} pairs) (keys pairs)))
 
+(defn rand-syllable
+  [max]
+  (rand-int max))
+
+(defn dif
+  [max x]
+  (- max x))
+
 (def get-word-list
   (-> (http/get "https://api.noopschallenge.com/wordbot?set=default&count=100000") :body))
 
@@ -52,6 +60,13 @@
 (defn get-word
   [length pairs]
   (rand-nth (word-by-syllable length pairs)))
+
+(defn get-line
+  [max pairs]
+  (let [x (rand-syllable max)]
+    [(get-word x pairs) (get-word (dif max x) pairs)]))
+
+(def line1 (get-line 5 (paired word-list)))
 
 (defn l1w1 [word-list] (get-word 2 (paired word-list)))
 
