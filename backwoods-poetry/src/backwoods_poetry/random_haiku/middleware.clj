@@ -57,36 +57,62 @@
 
 (defn paired [word-list] (pair (get-words word-list)))
 
-(defn get-word
+(defn get-word-x
   [length pairs]
   (rand-nth (word-by-syllable length pairs)))
 
-(defn get-line
+(defn get-word-y
+  [length pairs]
+  (when (not (empty? pairs))
+    (rand-nth (word-by-syllable length pairs))))
+
+(defn get-word
+  [length pairs]
+  (let [xs [pairs]]
+    (when (not (empty? xs))
+      (rand-nth (word-by-syllable length pairs)))))
+
+
+(defn short-line
   [max pairs]
   (let [x (rand-syllable max)]
-    [(get-word x pairs) (get-word (dif max x) pairs)]))
+    (if (== x max)
+      [(get-word x pairs)]
+      [(get-word x pairs) (get-word (dif max x) pairs)])))
 
-(def line1 (get-line 5 (paired word-list)))
 
-(defn l1w1 [word-list] (get-word 2 (paired word-list)))
+(defn long-line-x
+  [max pairs]
+  (let [x (rand-syllable (- max 1))]
+    (if (== x max)
+      [(get-word x pairs)]
+      (let [y (rand-syllable (dif max x))]
+        (if (> (dif max (+ x y)) 1)
+          [(get-word x pairs) (get-word y pairs)]
+          (if (> (dif max (+ x y)) 1)
+            [(get-word x pairs) (get-word y pairs) (get-word (dif max (+ x y)) pairs)]
+            [(get-word x pairs) (get-word y pairs) (get-word 1 pairs)]))))))
 
-(defn l1w2 [word-list] (get-word 3 (paired word-list)))
+(defn long-line
+  [max pairs]
+  (let [x (dif max 2) y (rand-syllable (dif max 2))]
+    (if (== (+ x y) max)
+      [(get-word x pairs) (get-word y pairs)]
+      (if (< (+ x y) max)
+        [(get-word x pairs) (get-word y pairs) (get-word (dif max (+ x y)) pairs)]
+        [(get-word x pairs) (get-word y pairs) (get-word 1 pairs)]))))
 
-(defn l2w1 [word-list] (get-word 2 (paired word-list)))
+(defn line1
+  [word-list]
+  (short-line 5 (paired word-list)))
 
-(defn l2w2 [word-list] (get-word 1 (paired word-list)))
+(defn line2
+  [word-list] 
+  (long-line 7 (paired word-list)))
 
-(defn l2w3 [word-list] (get-word 4 (paired word-list)))
-
-(defn l3w1 [word-list] (get-word 1 (paired word-list)))
-
-(defn l3w2 [word-list] (get-word 4 (paired word-list)))
-
-(defn first-line [word-list] [(l1w1 word-list) (l1w2 word-list)])
-
-(defn second-line [word-list] [(l2w1 word-list) (l2w2 word-list) (l2w3 word-list)])
-
-(defn third-line [word-list] [(l3w1 word-list) (l3w2 word-list)])
+(defn line3
+  [word-list] 
+  (short-line 5 (paired word-list)))
 
 (defn line-generator
   [line]
