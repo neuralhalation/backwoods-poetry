@@ -57,15 +57,6 @@
 
 (defn paired [word-list] (pair (get-words word-list)))
 
-(defn get-word-x
-  [length pairs]
-  (rand-nth (word-by-syllable length pairs)))
-
-(defn get-word-y
-  [length pairs]
-  (when (not (empty? pairs))
-    (rand-nth (word-by-syllable length pairs))))
-
 (defn get-word
   [length pairs]
   (let [xs [pairs]]
@@ -79,19 +70,6 @@
     (if (== x max)
       [(get-word x pairs)]
       [(get-word x pairs) (get-word (dif max x) pairs)])))
-
-
-(defn long-line-x
-  [max pairs]
-  (let [x (rand-syllable (- max 1))]
-    (if (== x max)
-      [(get-word x pairs)]
-      (let [y (rand-syllable (dif max x))]
-        (if (> (dif max (+ x y)) 1)
-          [(get-word x pairs) (get-word y pairs)]
-          (if (> (dif max (+ x y)) 1)
-            [(get-word x pairs) (get-word y pairs) (get-word (dif max (+ x y)) pairs)]
-            [(get-word x pairs) (get-word y pairs) (get-word 1 pairs)]))))))
 
 (defn long-line
   [max pairs]
